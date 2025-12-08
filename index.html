@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pendo Lab – Sayak Test Environment</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/core@1.4.0/dist/css/tabler.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/core@1.4.0/dist/css/tabler-vendors.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@tabler/core@1.4.0/dist/css/demo.min.css">
+
+  <script>
+  (function(apiKey){
+    (function(p,e,n,d,o){var v,w,x,y,z;o=p[d]=p[d]||{};o._q=o._q||[];
+      v=['initialize','identify','updateOptions','pageLoad','track','trackAgent'];
+      for(w=0,x=v.length;w<x;++w)(function(m){
+        o[m]=o[m]||function(){
+          o._q[m===v[0]?'unshift':'push']([m].concat([].slice.call(arguments,0)));
+        };
+      })(v[w]);
+      y=e.createElement(n);y.async=!0;
+      y.src='https://cdn.eu.pendo.io/agent/static/'+apiKey+'/pendo.js';
+      z=e.getElementsByTagName(n)[0];z.parentNode.insertBefore(y,z);
+    })(window,document,'script','pendo');
+
+    pendo.initialize({
+      visitor: {
+        id: "test_user_alpha_01",
+        email: "alpha01@testlab.fake",
+        firstName: "Alpha",
+        lastName: "Tester",
+        role: "admin"
+      },
+      account: {
+        id: "lab_account_01",
+        accountName: "Pendo Local Testing Suite",
+        payingStatus: "prototype"
+      }
+    });
+  })("29aaad8e-28bf-4ed0-94a5-5593c6d3df30");
+  </script>
+
+</head>
+<body class="theme-light">
+  <div class="page">
+    <header class="navbar navbar-expand-md navbar-light bg-white">
+      <div class="container-xl">
+        <a class="navbar-brand" href="#">
+          <span class="navbar-brand-text">Pendo Testing Dashboard</span>
+        </a>
+        <div class="navbar-nav flex-row order-md-last">
+          <a id="btn-export" class="nav-link" href="#">Export Data</a>
+          <a id="btn-onboarding" class="nav-link" href="#">Start Onboarding</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-body">
+      <div class="container-xl">
+        <div class="row row-cards">
+
+          <div class="col-md-6">
+            <div id="chart-revenue" class="card">
+              <div class="card-header"><h3 class="card-title">Revenue Chart</h3></div>
+              <div class="card-body text-muted">Imagine a beautiful chart here.</div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div id="settings-feature-toggle" class="card">
+              <div class="card-header"><h3 class="card-title">Feature Toggle</h3></div>
+              <div class="card-body">
+                <label class="form-check">
+                  <input id="toggle-advanced" class="form-check-input" type="checkbox" />
+                  <span class="form-check-label">Enable Quantum Mode</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+        <div class="mt-3">
+          <button id="invite-user" class="btn btn-primary">Invite User</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("btn-export").onclick = () => {
+      pendo.track("Exported Data", { format: "csv" });
+    };
+    document.getElementById("invite-user").onclick = () => {
+      pendo.track("Invited User", { invited: "dummy_user@test.fake" });
+    };
+    document.getElementById("toggle-advanced").onchange = (e) => {
+      pendo.track("Feature Toggle", { feature: "Quantum Mode", enabled: e.target.checked });
+    };
+    document.getElementById("btn-onboarding").onclick = () => {
+      pendo.track("Onboarding Flow Started", { step: 1 });
+    };
+  </script>
+</body>
+</html>
